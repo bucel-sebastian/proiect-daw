@@ -1,7 +1,5 @@
 <?php
 
 function view(string $file) {
-    include(SERVER_ROOT . "/resources/view/" . $file);
+    include(DOCUMENT_ROOT . "/resources/view/" . $file);
 }
-
-

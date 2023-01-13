@@ -1,0 +1,34 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+// header - start
+
+#header{
+    
+    width: 100%;
+    border-bottom: 1px solid #1a1a1a55;
+}
+
+.header-wrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+}
+
+// header - end
