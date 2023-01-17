@@ -13,19 +13,17 @@ class Database {
     }
 
     function insert(array $variables, string $table_name) {
+        $table_columns = array();
+        $table_values = array();
 
-        $table_columns = '';
-        $table_values = '';
         foreach ($variables as $key => $value) {
-            if($key === array_key_last($variables)){
-                $table_columns .= '`' . $key . '`';
-                $table_values .= '\'' . $value . '\'';
-            }
-            else{
-                $table_columns .= '`'.$key.'`,';
-                $table_values .= '\'' . $value . '\',';
-            }
+            array_push($table_columns,'`' . $key . '`');
+            array_push($table_values,'\'' . $value . '\'');
         }
+
+        $table_columns = implode(",",$table_columns);
+        $table_values = implode(",",$table_values);
+
         $sql_query = "INSERT INTO `" . $table_name . "`(" . $table_columns . ") VALUES (" . $table_values . ")";
 
         if(mysqli_query($this->connection,$sql_query)){
@@ -37,7 +35,17 @@ class Database {
     }
 
     function get(string $table_name, array $filters=null){
-        $sql_query = "SELECT * FROM `" . $table_name . "`";
+        if(null === $filters){
+            $sql_query = "SELECT * FROM `" . $table_name . "`";
+        }
+        else{
+            $table_where = array();
+            foreach ($filters as $key => $value) {
+                array_push($table_where, '`' . $key . '`=\'' . $value . '\'');
+            }
+            $table_where = implode(' AND ', $table_where);
+            $sql_query = "SELECT * FROM `" . $table_name . "` WHERE " . $table_where;
+        }
         if($result = mysqli_query($this->connection,$sql_query)){
             $array_of_results = array();
             while($row = mysqli_fetch_assoc($result)){
@@ -47,6 +55,9 @@ class Database {
                 }
                 array_push($array_of_results,$tmp_row_array);
             }
+            if(sizeof($array_of_results) === 1){
+                return $array_of_results[0];
+            }
             return $array_of_results;
         }
         else{
@@ -55,16 +66,20 @@ class Database {
     }
 
     static public function update(string $table_name, array $where, array $variables){
-        $update_values = '';
+        $update_values = array();
         foreach ($variables as $key => $value) {
-            if($key === array_key_last($variables)){
-                $update_values .= '`' . $key . '`=\'' . $value . '\'';
-            }
-            else{
-                $update_values .= '`' . $key . '`=\'' . $value . '\',';
-            }
+            array_push($update_values,'`' . $key . '`=\'' . $value . '\'');
         }
-        $sql_query = "UPDATE `" . $table_name . "` SET " . $update_values . " WHERE ";
+
+        $update_where = array();
+        foreach ($where as $key => $value) {
+            array_push($update_where,'`' . $key . '` = \'' . $value . '\'');
+        }
+
+        $update_values = implode(",", $update_values);
+        $update_where = implode(' AND ', $update_where);
+
+        $sql_query = "UPDATE `" . $table_name . "` SET " . $update_values . " WHERE " . $update_where;
         if(mysqli_query($this->connection,$sql_query)){
             return 1;
         }
@@ -73,8 +88,20 @@ class Database {
         }
     }
 
-    static public function remove(string $table_name, array $where){
-        $sql_query = "DELETE FROM `" . $table_name . "` WHERE 0";
+    static public function delete(string $table_name, array $where){
+        $table_where = array();
+        foreach ($where as $key => $value) {
+            array_push($table_where,'`' . $key . '` = \'' . $value . '\'');
+        }
+        $table_where = implode(' AND ', $table_where);
+    
+        $sql_query = "DELETE FROM `" . $table_name . "` WHERE ".$table_where;
+        if(mysqli_query($this->connection,$sql_query)){
+            return 1;
+        }
+        else{
+            return $this->connection->error;
+        }
     }
 
 }

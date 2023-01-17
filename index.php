@@ -4,6 +4,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 
 Route::get('/',function() {
+    // if(!User::checkLogin()){
+        // return view('login.view.php');
+    // }
     return view('home.view.php');
 });
 

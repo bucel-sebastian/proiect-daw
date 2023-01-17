@@ -20,8 +20,8 @@
     <?php
         include DOCUMENT_ROOT . '/config.php';
         echo $database->insert(array("nume"=>gethostbyaddr($_SERVER['REMOTE_ADDR']),"descriere"=>$_SERVER['REMOTE_ADDR'],"prenume"=>date("Y-m-d H:i")),'test');
-        $results = $database->get('test');
-        echo var_dump($results);
+        
+        User::login("test","test");
     ?>
 
     <?php
