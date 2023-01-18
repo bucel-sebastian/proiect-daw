@@ -34,20 +34,45 @@ class Database {
         }
     }
 
-    function get(string $table_name, array $filters=null){
+    function get(string $table_name, array $filters=null, int $limit=null, array $order=null, string $order_type=null, array $filters_like=null){
+        $table_where = array();
         if(null === $filters){
             $sql_query = "SELECT * FROM `" . $table_name . "`";
         }
         else{
-            $table_where = array();
             foreach ($filters as $key => $value) {
                 array_push($table_where, '`' . $key . '`=\'' . $value . '\'');
             }
+        }
+        if($filters_like != null){
+            foreach ($filters_like as $key => $value) {
+                array_push($table_where, '`' . $key . '` LIKE \'%' . $value . '%\'');
+            } 
+            
+        }
+
+        if($filters != null || $filters_like != null){
             $table_where = implode(' AND ', $table_where);
             $sql_query = "SELECT * FROM `" . $table_name . "` WHERE " . $table_where;
         }
+     
+        if($order != null){
+            $table_order = array();
+            foreach ($order as $key => $value) {
+                array_push($table_order, "`" . $value . "`");
+            }
+            $sql_query .= " ORDER BY " . implode(', ',$table_order);
+            if($order_type != null){
+                $sql_query .= " " . $order_type;
+            }
+        }
+        if($limit != null){
+            $sql_query .= " LIMIT " . $limit;
+        }
+
         if($result = mysqli_query($this->connection,$sql_query)){
             $array_of_results = array();
+            
             while($row = mysqli_fetch_assoc($result)){
                 $tmp_row_array = array();
                 foreach ($row as $key => $value) {
@@ -55,9 +80,9 @@ class Database {
                 }
                 array_push($array_of_results,$tmp_row_array);
             }
-            if(sizeof($array_of_results) === 1){
-                return $array_of_results[0];
-            }
+            // if(sizeof($array_of_results) === 1){
+            //     return $array_of_results[0];
+            // }
             return $array_of_results;
         }
         else{
@@ -65,7 +90,7 @@ class Database {
         }
     }
 
-    static public function update(string $table_name, array $where, array $variables){
+    function update(string $table_name, array $where, array $variables){
         $update_values = array();
         foreach ($variables as $key => $value) {
             array_push($update_values,'`' . $key . '`=\'' . $value . '\'');
@@ -88,7 +113,7 @@ class Database {
         }
     }
 
-    static public function delete(string $table_name, array $where){
+    function delete(string $table_name, array $where){
         $table_where = array();
         foreach ($where as $key => $value) {
             array_push($table_where,'`' . $key . '` = \'' . $value . '\'');

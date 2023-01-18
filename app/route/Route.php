@@ -13,10 +13,11 @@ class Route {
         global $routes;
 
         $uri = $_SERVER['REQUEST_URI'];
+        $uri = parse_url($uri);
         $found = false;
 
         foreach($routes as $path => $callback){
-            if($path !== $uri) continue;
+            if($path !== $uri['path']) continue;
 
             $found = true;
             $callback();
@@ -24,7 +25,7 @@ class Route {
 
         if(!$found){
             $notFoundCallBack = $routes['/404'];
-            $notFoundCallback();
+            $notFoundCallBack();
         }
 
     }

@@ -1,3 +1,3 @@
 <?php
 
-$filesArray = scandir(SERVER_ROOT . '/resources/js/');
+// $filesArray = scandir(SERVER_ROOT . '/resources/js/');

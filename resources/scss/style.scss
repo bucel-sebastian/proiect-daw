@@ -1,3 +1,12 @@
+$darkBg: #1a1a1a;
+$lighterBg: #2f2f2f;
+$textWhite: #fafafa;
+$textDarker: #aaaaaa;
+
+$blue: #3daad6;
+$red: #d94e47;
+$green: #6baa41;
+
 *{
     margin:0;
     padding:0;
@@ -5,30 +14,250 @@
 }
 
 
-
-
-
-
-
-// header - start
-
-#header{
-    
-    width: 100%;
-    border-bottom: 1px solid #1a1a1a55;
+html{
+    font-family: 'Arial';
+    font-size: 20px;
 }
 
+
+
+
+#header{
+    height: 70px;
+    background-color: $darkBg;
+    border-bottom: 1px solid $textDarker;
+}
 .header-wrap{
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
-    width: 100%;
+    justify-content: space-between;
+    padding: 5px 35px;
     height: 100%;
-    position: relative;
     align-items: center;
     align-content: center;
+    color:$textWhite;
+}
+
+
+#menu-button{
+    background:none;
+    border:none;
+    outline:none;
+    cursor: pointer;
+}
+.bar{
+    width: 30px;
+    height: 3px;
+    background-color: $textWhite;
+    margin: 5px 0;
+    transition: 0.2s ease;
+}
+.menu-active .bar-1{
+    transform:rotate(45deg) translate(5px, 5px);
+}
+.menu-active .bar-2{
+    opacity: 0;
+}
+.menu-active .bar-3{
+    transform:rotate(-45deg) translate(6px, -6px);
+
+}
+#menu-wrap{
+    width: 200px;
+    padding: 10px;
+    background-color: $darkBg;
+    transition:0.3s ease;
+    color:$textWhite;
+}
+#menu-wrap.menu-active{
+    margin-left:0;
+}
+#menu-wrap.menu-inactive{
+    margin-left: -200px;
+}
+
+#menu-wrap nav ul li a{
+    color: $textWhite;
+    text-decoration: none;
+    margin:10px 0;   
+}
+#menu-wrap nav ul li{
+    margin:10px 0;
+}
+
+#page-body{
+    width: 100vw;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: $lighterBg;
+}
+
+#page-wrap{
+    padding: 15px 25px;
+    color:$textWhite;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.notes-container{
+    margin-bottom: 50px;
+}
+.notes-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+
+.note-link{
+    max-width: 350px;
+    max-height: 400px;
+    text-decoration: none;
+    color:none;
+    margin:10px 15px;
+    padding:10px;
+    border:1px solid $textDarker;
+    border-radius:7px;
+}
+.note-container h4{
+    color:$textWhite;
+    font-size: 1.2em;
+}
+.note-container span{
+    color:$textDarker;
+    font-size: 0.8em;
+}
+.note-link-content{
+    color:$textDarker;
+    width: 100%;
+    border-top: 1px $textDarker dashed;
+    padding-top:10px;
+}
+
+
+
+
+.note-header{
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+}
+#note-title{
+    width: 100%;
+}
+#note-content{
+    margin-top:10px;
+}
+#note-content:focus-visible{
+    outline: none;
+}
+#note-button-feature{
+    cursor: pointer;
+    margin-right: 10px;
+}
+#note-button-feature-active, #note-button-feature-inactive{
+    pointer-events: none;
+}
+
+
+.login-page{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background: $lighterBg;
+}
+
+.login-page-wrap{
+    max-width: 400px;
+    width: 100%;
+    padding: 25px 30px;
+    border:#aaaaaa 1px dashed;
+    background: $darkBg;
+    border-radius: 10px;
+}
+
+.input-container-col{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+.input-container-row{
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+}
+.input-container-col input,
+.input-container-row input{
+    padding: 3px 5px;
+    font-size: 1em;
+    background: $textWhite;
+    color:$lighterBg;
+    border-radius: 5px;
 
 }
 
-// header - end
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.button-container button{
+    padding: 7px 12px;
+    font-size: 1em;
+    background: $textWhite;
+    color:$lighterBg;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.login-other-btns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:25px;
+}
+.login-other-btns a{
+    color:$textDarker;
+    text-decoration: none;
+    cursor: pointer;
+}
+label{
+    font-size: 0.85em;
+    color:$textDarker;
+    margin-bottom: 3px;
+
+}
+
+#note-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+#note-buttons button{
+    margin: 0px 5px;
+    padding: 7px 11px;
+    color:$textWhite;
+    border-radius: 5px;
+    border: 1px $textWhite solid;
+    cursor: pointer;
+}
+
+#note-button-add-friend{
+    background: $blue;
+}
+#note-button-save{
+    background: $green;
+}
+
+#note-button-delete{
+    background: $red;
+}
